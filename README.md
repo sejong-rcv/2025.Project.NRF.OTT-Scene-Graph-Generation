@@ -35,5 +35,32 @@ dataset의 디렉토리는 설정은 다음과 같습니다 :
 ```
 
 ## Train
+
 본 프로젝트는 [[CVPR 2024] OED: Towards One-stage End-to-End Dynamic Scene Graph Generation](https://github.com/guanw-pku/OED?tab=readme-ov-file)을 기반으로 합니다.
-학습을 시작하기 위해서는 다음 구글 드라이브([checkpoints](https://drive.google.com/drive/folders/12zh9ocGmbV8aOFPzUfp8ezP0pMTlpzJl?usp=sharing))에서 제공되는 체크포인트를 다룬로드받아 'exps/params/sgdet/spatial/checkpoint_22_origin.pth'에 위치시켜주세요.
+학습을 시작하기 위해서는 다음 구글 드라이브([checkpoints](https://drive.google.com/drive/folders/12zh9ocGmbV8aOFPzUfp8ezP0pMTlpzJl?usp=sharing))에서 제공되는 체크포인트를 다룬로드받아 다음과 같이 위치시켜주세요. 
+```
+exps/params/sgdet/spatial/checkpoint_22_origin.pth
+```
+
+학습은 2단계로 나눠서 수행합니다. 먼저 spatial module을 학습하기 위해 다음과 같이 .sh script를 실행시켜주세요. 
+```
+# Train Spatial Module
+sh train_spatial_sgdet_DINOv2.sh
+```
+
+이어서, temporal module을 학습하기 위해 다음과 같이 shell script를 실행시켜주세요. 
+```
+# Train Temporal Module
+sh train_temporal_sgdet_DINOv2.sh
+```
+
+
+## Test
+학습 완료된 spatial module, temporal module은 각각 다음과 같이 test 할 수 있습니다.
+```
+# test Spatial Module
+python eval_spatial_sgdet_dinov2.py
+
+# test Temporal Module
+python eval_temporal_sgdet_dinov2.py
+```
