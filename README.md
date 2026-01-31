@@ -8,7 +8,6 @@
 - 국소적 시각 정보 활용 능력 극대화를 위한 밀집 표현 기반 특징 추출기 도입
 
 
-
 ## Requirements
 
 **Recommended Environment**
