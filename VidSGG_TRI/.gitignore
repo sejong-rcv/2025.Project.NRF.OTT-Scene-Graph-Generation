@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs & outputs
+runs/
+wandb/
+logs/
+*.log
+
+# Data / checkpoints (adjust as needed)
+*.zip
+*.tar
+*.tar.gz
+*.7z
+*.mp4
+*.avi
+*.mkv
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.npy
+*.npz
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Secrets
+.env
+*.pem
+*.key
