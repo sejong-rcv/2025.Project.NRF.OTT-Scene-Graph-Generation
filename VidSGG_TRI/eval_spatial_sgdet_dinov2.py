@@ -30,20 +30,5 @@ def run_eval(device='0', ckpt_path=''):
 
 if __name__ == "__main__":
     device = '0'
-    # # vit-B 다시 inference
     run_eval(device=device, ckpt_path='exps/spatial_sgdet_dinov2_vit_B14/checkpoint_29.pth')
     
-    # # # weight 0.01
-    # run_eval(device=device, ckpt_path='exps/spatial_sgdet_vitB_LossReweighting_fixed001/checkpoint_35.pth')
-    # run_eval(device=device, ckpt_path='exps/spatial_sgdet_vitB_LossReweighting_fixed001/checkpoint_36.pth')
-    # run_eval(device=device, ckpt_path='exps/spatial_sgdet_vitB_LossReweighting_fixed001/checkpoint_37.pth')
-    # run_eval(device=device, ckpt_path='exps/spatial_sgdet_vitB_LossReweighting_fixed001/checkpoint_38.pth')
-    # run_eval(device=device, ckpt_path='exps/spatial_sgdet_vitB_LossReweighting_fixed001/checkpoint_39.pth')
-    
-    # # weight 2
-    # # run_eval(device=device, ckpt_path='exps/spatial_sgdet_vitB_LossReweighting_fixed2/checkpoint_35.pth')
-    # # run_eval(device=device, ckpt_path='exps/spatial_sgdet_vitB_LossReweighting_fixed2/checkpoint_36.pth')
-    # # run_eval(device=device, ckpt_path='exps/spatial_sgdet_vitB_LossReweighting_fixed2/checkpoint_37.pth')
-    # # run_eval(device=device, ckpt_path='exps/spatial_sgdet_vitB_LossReweighting_fixed2/checkpoint_38.pth')
-    # # run_eval(device=device, ckpt_path='exps/spatial_sgdet_vitB_LossReweighting_fixed2/checkpoint_39.pth')
-

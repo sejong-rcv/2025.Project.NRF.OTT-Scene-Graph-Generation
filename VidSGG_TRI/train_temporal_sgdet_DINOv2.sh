@@ -10,14 +10,14 @@ export NCCL_ASYNC_ERROR_HANDLING=1
 export NCCL_P2P_DISABLE=1       
 
 
-TAG='temporal_sgdet_vitB_batches_top100'
+TAG='temporal_sgdet_vit_batches'
 PORT=12352
 
 export MASTER_ADDR=127.0.0.1
 export MASTER_PORT=${PORT}
 
-NUM_GPUS=3
-GPU_IDS=5,6,7
+NUM_GPUS=4
+GPU_IDS=0,1,2,3
 
 export CUDA_VISIBLE_DEVICES=${GPU_IDS} 
 export OMP_NUM_THREADS=2

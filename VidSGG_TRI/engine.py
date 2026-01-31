@@ -157,19 +157,13 @@ def evaluate_dsgg(dataset_file, model, postprocessors, data_loader, device, args
             ckpt_dir,
             f".tmp_eval_{ckpt_tag}_{args.dsgg_task}_{mode}_rank{rank}_{run_id}.log"
             )
-    
-    # evaluator1 = BasicSceneGraphEvaluator(mode=args.dsgg_task, iou_threshold=0.5, constraint='with', nms_filter=args.use_nms_filter)
-    # evaluator2 = BasicSceneGraphEvaluator(mode=args.dsgg_task, iou_threshold=0.5, constraint='no', nms_filter=args.use_nms_filter)
-    
+
     evaluator1 = BasicSceneGraphEvaluator(mode=args.dsgg_task, iou_threshold=0.5, constraint='with', 
                                           nms_filter=args.use_nms_filter, upper_bound=False,
                                           save_file=get_log_path('with')) 
     evaluator2 = BasicSceneGraphEvaluator(mode=args.dsgg_task, iou_threshold=0.5, constraint='no', 
                                           nms_filter=args.use_nms_filter, upper_bound=False,
                                           save_file=get_log_path('no'))  
-    # evaluator_upper = BasicSceneGraphEvaluator(mode='sgdet',   iou_threshold=0.5, constraint='with',
-    #                                            nms_filter=args.use_nms_filter, upper_bound=True,
-    #                                            save_file=get_log_path('upper')) # 고유 경로 전달
 
     metric_logger = utils.MetricLogger(delimiter="  ")
     header = 'Test:'
