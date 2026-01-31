@@ -96,7 +96,7 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
         
         losses = losses / max(1, args.accum_iter)
         
-        losses.backward() # bfloat16은 scaler.scale()이 필요 없음 
+        losses.backward() 
         
         if (i + 1) % args.accum_iter == 0:
             if max_norm > 0:
@@ -128,7 +128,7 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
                 writer.add_scalar('loss/{}'.format(k), v, cur_iter)
         cur_iter += 1
         
-    if (i + 1) % args.accum_iter != 0: # for loop 끝난 이후 epoch 마지막에 남은 micro-batch gradient 반영
+    if (i + 1) % args.accum_iter != 0: 
         if max_norm > 0:
             torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm)
         optimizer.step()
@@ -163,13 +163,13 @@ def evaluate_dsgg(dataset_file, model, postprocessors, data_loader, device, args
     
     evaluator1 = BasicSceneGraphEvaluator(mode=args.dsgg_task, iou_threshold=0.5, constraint='with', 
                                           nms_filter=args.use_nms_filter, upper_bound=False,
-                                          save_file=get_log_path('with')) # 고유 경로 전달
+                                          save_file=get_log_path('with')) 
     evaluator2 = BasicSceneGraphEvaluator(mode=args.dsgg_task, iou_threshold=0.5, constraint='no', 
                                           nms_filter=args.use_nms_filter, upper_bound=False,
-                                          save_file=get_log_path('no'))   # 고유 경로 전달
-    evaluator_upper = BasicSceneGraphEvaluator(mode='sgdet',   iou_threshold=0.5, constraint='with',
-                                               nms_filter=args.use_nms_filter, upper_bound=True,
-                                               save_file=get_log_path('upper')) # 고유 경로 전달
+                                          save_file=get_log_path('no'))  
+    # evaluator_upper = BasicSceneGraphEvaluator(mode='sgdet',   iou_threshold=0.5, constraint='with',
+    #                                            nms_filter=args.use_nms_filter, upper_bound=True,
+    #                                            save_file=get_log_path('upper')) # 고유 경로 전달
 
     metric_logger = utils.MetricLogger(delimiter="  ")
     header = 'Test:'
@@ -199,31 +199,6 @@ def evaluate_dsgg(dataset_file, model, postprocessors, data_loader, device, args
         if len(targets) > 1 and args.dsgg_task == 'sgdet' and args.dataset_file == 'ag_multi':
             targets = [targets[0]]
 
-
-        # # Attention Map 시각화: 
-        # # 1. 모델 예측값에서 attention weight (ins_attn_weight, rel_attn_weight) 얻고
-        # # 2. 객체 분류 점수 (pred_obj_logits) 등이 높은 상위 K개의 쿼리 인덱스를 추출해서 대상 쿼리 선별하고 
-        # # 3. 선택된 idx에서 2d map 추출하고 plot_attn_weight에 맵과 이미지 경로를 전달하여 시각화를 수행
-
-        # # 객체 스코어(Logits)에서 가장 높은 확률값을 가져옴 (Shape: [Batch, Num_Queries])
-        # scores = outputs['pred_obj_logits'].max(-1)[0] # * outputs['pred_attn_logits'].max(-1)[0] * outputs['pred_spatial_logits'].max(-1)[0] * outputs['pred_contacting_logits'].max(-1)[0]
-        
-        # # 배치 중 첫 번째 이미지(index 0)에서 스코어가 높은 상위 5개 쿼리 인덱스 추출
-        # sorted_idx_topk = scores[0].sort()[1].cpu().numpy()[::-1][:5]
-        # import pdb;pdb.set_trace()
-        # for idx in sorted_idx_topk: # plot queries
-        #     # 해당 쿼리 인덱스(idx)에 해당하는 Instance 및 Relation Attention Map 추출
-        #     ins_mask = outputs['ins_attn_weight'][0, idx].cpu().numpy()
-        #     rel_mask = outputs['rel_attn_weight'][0, idx].cpu().numpy()
-
-        #     # targets[0]['img_path']를 통해 원본 이미지 경로 전달, post_name을 통해 파일 이름 구분 (예: query_42_ins)
-        #     plot_attn_weight(attention_mask=ins_mask, img_path=targets[0]['img_path'], post_name='query_{}_ins'.format(idx))
-        #     plot_attn_weight(attention_mask=rel_mask, img_path=targets[0]['img_path'], post_name='query_{}_rel'.format(idx))
-
-        # to_test -= 1
-        # if to_test == 0:
-        #     break
-        # # continue
         
         orig_target_sizes = torch.stack([t["orig_size"] for t in targets], dim=0)
 
@@ -299,7 +274,7 @@ def evaluate_dsgg(dataset_file, model, postprocessors, data_loader, device, args
             f.write(f"args : {args}\n")
         print(f"Full stats saved to: {save_path}")
         
-    for mode in ['with', 'no', 'upper']: # 임시 파일 삭제: 생성된 모든 모드의 임시 로그 파일을 삭제하여 폴더 정리
+    for mode in ['with', 'no', 'upper']: 
         tmp_p = get_log_path(mode)
         if os.path.exists(tmp_p): os.remove(tmp_p)
 
@@ -322,32 +297,27 @@ def plot_attn_weight(attention_mask, img_path, post_name):
     img = cv2.imread(img_path)
     img_h, img_w = img.shape[:2]
 
-    # Matplotlib 피규어 생성 (이미지 크기에 비례하여 figsize 설정)
+
     plt.subplots(nrows=1, ncols=1, figsize=(0.02 * img_w, 0.02 * img_h))
 
-    # scale the image
-    # ratio = 1
-    # img_w, img_h = int(img.size[0] * ratio), int(img.size[1] * ratio)
-    # img = img.resize((img_h, img_w))
 
-    plt.imshow(img, alpha=1) # 배경으로 원본 이미지 표시 (투명도 없음 alpha=1)
-    plt.axis('off') # 축 표시 제거
 
-    mask = cv2.resize(attention_mask, (img_w, img_h)) # Attention Map 전처리: 원본 이미지 크기에 맞게 Resize (Linear Interpolation)    
-    normed_mask = mask / mask.max() # 정규화(Normalization): 0~1 사이로 만들고 
-    normed_mask = (normed_mask * 255).astype('uint8')   # 8비트 이미지(0~255)로 변환
+    plt.imshow(img, alpha=1) 
+    plt.axis('off') 
+
+    mask = cv2.resize(attention_mask, (img_w, img_h))    
+    normed_mask = mask / mask.max() #
+    normed_mask = (normed_mask * 255).astype('uint8')  
     
-    plt.imshow(normed_mask, alpha=0.5, interpolation='nearest') # Attention Map을 원본 이미지 위에 겹쳐서 표시 (alpha=0.5로 반투명하게 설정)
+    plt.imshow(normed_mask, alpha=0.5, interpolation='nearest')
 
     # build save path
     save_folder = os.path.join('./visual_attn_obj_score/', img_name)
     if not os.path.exists(save_folder):
         os.mkdir(save_folder)
-    # 시각화 결과물(.jpg)과 원본 이미지(orig.jpg) 저장 경로 설정
     save_path = os.path.join(save_folder, post_name+'.jpg')
     ori_path = os.path.join(save_folder, 'orig.jpg')
     
-    # 여백 제거 및 이미지 파일 저장 (dpi=200 설정으로 고화질 저장)
     print("save image to: " + save_path)
     plt.axis('off')
     plt.subplots_adjust(top=1, bottom=0, right=1,  left=0, hspace=0, wspace=0)
@@ -412,7 +382,6 @@ def evaluate_speed(dataset_file, model, postprocessors, data_loader, device, arg
     print(total_time * 1000 / total_frame)
 
 def _move_target_dict_to_device(t: dict, device):
-    # Tensor인 값만 .to(device) 적용 (Tensor가 아닌 값은 그대로 둠)
     return {
         k: (v.to(device) if torch.is_tensor(v) else v)
         for k, v in t.items()
