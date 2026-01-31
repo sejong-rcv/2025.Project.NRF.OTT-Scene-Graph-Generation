@@ -37,7 +37,7 @@ dataset의 디렉토리는 설정은 다음과 같습니다 :
 ## Train
 
 본 프로젝트는 [[CVPR 2024] OED: Towards One-stage End-to-End Dynamic Scene Graph Generation](https://github.com/guanw-pku/OED?tab=readme-ov-file)을 기반으로 합니다.
-학습을 시작하기 위해서는 다음 구글 드라이브([checkpoints](https://drive.google.com/drive/folders/12zh9ocGmbV8aOFPzUfp8ezP0pMTlpzJl?usp=sharing))에서 제공되는 체크포인트를 다룬로드받아 다음과 같이 위치시켜주세요. 
+학습을 시작하기 위해서는 다음 구글 드라이브([checkpoints](https://drive.google.com/drive/folders/12zh9ocGmbV8aOFPzUfp8ezP0pMTlpzJl?usp=sharing))에서 제공되는 체크포인트를 다운로드받아 다음과 같이 위치시켜주세요. 
 ```
 exps/params/sgdet/spatial/checkpoint_22_origin.pth
 ```
