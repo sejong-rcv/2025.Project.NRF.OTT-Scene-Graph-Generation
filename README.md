@@ -1,4 +1,4 @@
-# 2025.Project.NRF.OTT
+# 2025.Project.NRF.OTT-Scene-Graph-Generation
 (1차년도) 한국연구재단 우수신진연구과제 / OTT 사용자 분석을 위한 데이터 결합 및 증식 기술
 
 고차원적 장면 이해 기반 프레임 태그 추출을 위한 비디오 장면 그래프 생성 고도화 연구
