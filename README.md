@@ -43,13 +43,13 @@ exps/params/sgdet/spatial/checkpoint_22_origin.pth
 
 학습은 2단계로 나눠서 수행합니다. 먼저 spatial module을 학습하기 위해 다음과 같이 .sh script를 실행시켜주세요. 
 ```
-# Train Spatial Module
+# Train spatial module
 sh train_spatial_sgdet_DINOv2.sh
 ```
 
 이어서, temporal module을 학습하기 위해 다음과 같이 shell script를 실행시켜주세요. 
 ```
-# Train Temporal Module
+# Train temporal module
 sh train_temporal_sgdet_DINOv2.sh
 ```
 
@@ -57,9 +57,9 @@ sh train_temporal_sgdet_DINOv2.sh
 ## Test
 학습 완료된 spatial module, temporal module은 각각 다음과 같이 test 할 수 있습니다.
 ```
-# test Spatial Module
+# test spatial module
 python eval_spatial_sgdet_dinov2.py
 
-# test Temporal Module
+# test temporal module
 python eval_temporal_sgdet_dinov2.py
 ```
