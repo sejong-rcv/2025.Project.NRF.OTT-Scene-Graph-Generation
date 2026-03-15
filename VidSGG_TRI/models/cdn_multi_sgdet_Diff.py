@@ -1,7 +1,3 @@
-"""
-Temporal module 학습 위해 tgt/ref frames와 batch 처리하도록 구현 
-(기존 코드는 batch 축에 ref frames를 쌓아서 gpu 한장에 video 하나만 얹기 가능. batch_size=1로 강제 고정이었음)
-"""
 
 import copy
 from typing import Optional, List
